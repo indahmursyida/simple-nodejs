@@ -1,0 +1,2 @@
+Hello everyone
+I wanna test reading a file using nodejs
