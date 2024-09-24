@@ -1,5 +1,6 @@
 const fs = require('fs');
 const http = require('http');
+const penjumlahanModule = require('./penjumlahan');
 
 fs.readFile('example.txt', 'utf8', (err, data) => {
   if (err) {
@@ -19,3 +20,5 @@ const server = http.createServer((req, res) => {
 server.listen(3000, () => {
   console.log('Server running at <http://localhost:3000/>');
 });
+
+penjumlahanModule.penjumlahan(2, 4);
