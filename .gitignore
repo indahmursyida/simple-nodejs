@@ -1,3 +1,6 @@
 node_modules
 /tugas-ts/dist
 package-lock.json
+.env
+/tugas-middleware-express/public/images
+/tugas-middleware-express/src/index-latihan.ts
