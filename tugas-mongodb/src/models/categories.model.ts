@@ -1,20 +1,17 @@
-import mongoose, { Types } from "mongoose";
-
-export interface Category {
-  _id?: Types.ObjectId;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const CategoriesSchema = new Schema<Category>(
+const CategoriesSchema = new Schema(
   {
     name: {
-      type: Schema.Types.String,
+      type: String,
       required: true,
     },
+    products: [{
+      type: Schema.Types.ObjectId,
+      ref: "Products"
+    }]
   },
   {
     timestamps: true,
