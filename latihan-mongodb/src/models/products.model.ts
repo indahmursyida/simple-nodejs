@@ -24,7 +24,11 @@ const ProductsSchema = new Schema(
       type: Number,
       required: true,
     },
-    categoryId: {
+    slug: {
+      type: String,
+      unique: true,
+    },
+    category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
@@ -33,6 +37,16 @@ const ProductsSchema = new Schema(
     timestamps: true,
   }
 );
+
+ProductsSchema.pre("save", function (next) {
+  const product = this;
+
+  if (!product.slug) {
+    product.slug = product.name.toLowerCase().split(" ").join("-");
+  }
+
+  next();
+});
 
 const ProductsModel = mongoose.model("Products", ProductsSchema);
 
