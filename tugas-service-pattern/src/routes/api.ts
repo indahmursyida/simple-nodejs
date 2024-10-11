@@ -4,9 +4,16 @@ import uploadMiddleware from "../middlewares/upload.middleware";
 import uploadController from "../controllers/upload.controller";
 import productsController from "../controllers/products.controller";
 import categoriesController from "../controllers/categories.controller";
+import authController from "../controllers/auth.controller";
+import authMiddleware from "../middlewares/auth.middleware";
 
 const router = express.Router();
 
+// Auth
+router.post("/auth/login", authController.login);
+router.post("/auth/register", authController.register);
+router.get("/auth/me", authMiddleware, authController.me);
+router.put("/auth/update-profile", authMiddleware, authController.updateProfile);
 // CRUD Categories
 router.get("/categories", categoriesController.findAll);
 router.post("/categories", categoriesController.create);
