@@ -24,7 +24,7 @@ export const findAll = async (
     .limit(limit)
     .skip((page - 1) * limit)
     .sort({ createdAt: -1 })
-    .populate("category");
+    .populate("categoryId");
   return result;
 };
 export const findOne = async (id: string): Promise<Product | null> => {

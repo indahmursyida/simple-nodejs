@@ -14,6 +14,7 @@ export const findAll = async (
     .limit(limit)
     .skip((page - 1) * limit)
     .sort({ createdAt: -1 });
+    
   return result;
 };
 export const findOne = async (id: string): Promise<Category | null> => {

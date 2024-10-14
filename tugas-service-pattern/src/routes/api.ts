@@ -13,7 +13,7 @@ const router = express.Router();
 // Auth
 router.post("/auth/login", authController.login);
 router.post("/auth/register", authController.register);
-router.get("/auth/me",[authMiddleware, rbacMiddleware(["admin"])], authController.me);
+router.get("/auth/me", [authMiddleware, rbacMiddleware(["admin", "user"])], authController.me);
 router.put("/auth/update-profile", authMiddleware, authController.updateProfile);
 // CRUD Categories
 router.get("/categories", categoriesController.findAll);
