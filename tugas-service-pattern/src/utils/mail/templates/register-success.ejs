@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful</title>
+    <style>
+        /* Pink theme styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe6f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 50px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #ff69b4;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .details {
+            background-color: #ffcce0;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 20px 0;
+        }
+        
+        .details h2 {
+            color: #ff69b4;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #ff69b4;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+        }
+
+        .btn:hover {
+            background-color: #ff4a93;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registration Successful!</h1>
+        <p>Thank you for registering, <%= username  %>!</p>
+        <p>Your account has been created successfully.</p>
+    </div>
+</body>
+</html>
