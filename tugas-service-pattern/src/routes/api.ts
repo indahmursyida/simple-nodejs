@@ -7,6 +7,7 @@ import categoriesController from "../controllers/categories.controller";
 import authController from "../controllers/auth.controller";
 import authMiddleware from "../middlewares/auth.middleware";
 import rbacMiddleware from "../middlewares/rbac.middleware";
+import orderController from "../controllers/order.controller";
 
 const router = express.Router();
 
@@ -32,5 +33,8 @@ router.delete("/products/:id", productsController.delete);
 
 router.post("/upload", uploadMiddleware.single, uploadController.single);
 router.post("/uploads", uploadMiddleware.multiple, uploadController.multiple);
+
+router.get("/orders", authMiddleware, orderController.findAll);
+router.post("/orders", orderController.create);
 
 export default router;
