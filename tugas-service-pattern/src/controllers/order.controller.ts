@@ -12,7 +12,7 @@ import { IRequestWithUser } from "../middlewares/auth.middleware";
 import { ObjectId } from "mongoose";
 
 export default {
-  async create(req: Request, res: Response) {
+  async create(req: IRequestWithUser, res: Response) {
     /**
      #swagger.tags = ['Orders']
      #swagger.security = [{
@@ -26,6 +26,8 @@ export default {
      }
      */
     try {
+      const userId = req.user?.id as unknown as ObjectId;
+      req.body.createdBy = userId;
       const result = await create(req.body);
       res.status(201).json({
         data: result,
@@ -58,7 +60,7 @@ export default {
         });
       }
       const userId = req.user?.id as unknown as ObjectId;
-      const result = await findAll(userId, query, limit, page);
+      const result = await findAll(userId, limit, page);
       res.status(200).json({
         data: result,
         message: "Success get all orders",

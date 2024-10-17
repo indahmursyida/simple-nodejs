@@ -1,87 +1,34 @@
-/**
- * src/services/order.service.ts
- */
-
-import OrderModel, { Order } from "../models/order.model";
-import OrderDetailModel, { OrderDetail } from "../models/order-detail.model";
 import { ObjectId } from "mongoose";
-import { Product } from "../models/products.model";
+import OrderModel, { Order } from "../models/order.model";
+import ProductsModel from "../models/products.model";
 
-export interface IOrderItem {
-  name: string;
-  productId: string;
-  price: number;
-  quantity: number;
-}
+export const create = async (payload: Order): Promise<Order> => {
+  
 
-export interface IOrder {
-  grandTotal: number;
-  orderItems: IOrderItem[];
-  createdBy: string;
-  status: string;
-}
+  const productIds = payload.orderItems.map(item => item.productId);
+  const products = await ProductsModel.find({ _id: { $in: productIds } });
 
-export const create = async (payload: IOrder): Promise<IOrder> => {
-  const { grandTotal, orderItems, createdBy, status } = payload;
-  const order = new OrderModel({
-    grandTotal,
-    createdBy,
-    status,
+  payload.orderItems.forEach(item => {
+    const product = products.find(p => p._id.toString() === item.productId.toString());
+    if(product){
+      item.name = product.name;
+      item.price = product.price;
+    }
   });
   
-  const newOrder = await OrderModel.create(order);
-  const orderDetailPromises = orderItems.map(async (item) => {
-    const detail =  new OrderDetailModel({
-      product: item.productId,
-      qty: item.quantity,
-      subTotal: item.quantity * item.price,
-      order: newOrder._id
-    });
-    const newDetail = await OrderDetailModel.create(detail);
-    return detail;
-  });
-
-  return payload;
+  const result = await OrderModel.create(payload);
+  return result;
 };
 
 export const findAll = async (
   userId: ObjectId,
-  query: any,
   limit: number = 10,
   page: number = 1
-): Promise<{
-  grandTotal: number;
-  orderItems: {
-    name: string;
-    productId: string | undefined;
-    price: number;
-    quantity: number;
-  }[];
-  createdBy: string;
-  status: string;
-}[]> => {
-  const result = await OrderModel.find(query)
+): Promise<Order[]> => {
+  const result = await OrderModel.find({ createdBy: userId })
     .limit(limit)
     .skip((page - 1) * limit)
     .sort({ createdAt: -1 });
-    const orders = await OrderModel.find({ createdBy: userId });
 
-    const formattedOrdersPromises = orders.map(async (order) => {
-      const orderDetails = await OrderDetailModel.find({ order: order._id }).populate<{ product: Product }>('product')
-      .lean();
-      console.log(orderDetails);
-      return {
-        grandTotal: order.grandTotal,
-        orderItems: orderDetails.map((detail) => ({
-          name: detail.product.name,
-          productId: detail.product._id?.toString(),
-          price: detail.product.price,
-          quantity: detail.qty,
-        })),
-        createdBy: order.createdBy.toString(),
-        status: order.status,
-      };
-    });
-
-    return Promise.all(formattedOrdersPromises);
+  return result;
 };

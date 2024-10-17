@@ -35,6 +35,6 @@ router.post("/upload", uploadMiddleware.single, uploadController.single);
 router.post("/uploads", uploadMiddleware.multiple, uploadController.multiple);
 
 router.get("/orders", authMiddleware, orderController.findAll);
-router.post("/orders", orderController.create);
+router.post("/orders", authMiddleware, orderController.create);
 
 export default router;
